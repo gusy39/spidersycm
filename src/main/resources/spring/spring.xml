@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+    <context:component-scan base-package="com.ecmoho"></context:component-scan>
+    <bean id="schqHeaderBean" class="com.ecmoho.base.bean.HeaderBean">
+        <property name="userAgent" value="Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.155 Safari/537.36"></property>
+        <property name="referer" value="https://mq.sycm.taobao.com/industry/overview/overview.htm?_res_id_=199"></property>
+        <property name="orgin" value="https://mq.sycm.taobao.com"></property>
+        <property name="acceptLanguage" value="zh-CN,zh;q=0.8"></property>
+        <property name="accept" value="*/*"></property>
+    </bean>
+    <!--直通车-->
+    <bean id="subWayHeaderBean" class="com.ecmoho.base.bean.HeaderBean">
+        <property name="userAgent" value="Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.155 Safari/537.36"></property>
+        <property name="referer" value="http://subway.simba.taobao.com/"></property>
+        <property name="orgin" value="http://subway.simba.taobao.com"></property>
+        <property name="acceptLanguage" value="zh-CN,zh;q=0.8"></property>
+        <property name="accept" value="application/json, text/javascript, */*; q=0.01"></property>
+    </bean>
+    <!--淘宝客-->
+    <bean id="taobaoCustomersHeaderBean" class="com.ecmoho.base.bean.HeaderBean">
+        <property name="userAgent" value="Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.155 Safari/537.36"></property>
+        <property name="referer" value="http://ad.alimama.com/myunion.htm"></property>
+        <property name="orgin" value="http://ad.alimama.com"></property>
+        <property name="acceptLanguage" value="zh-CN,zh;q=0.8"></property>
+        <property name="accept" value="application/json, text/javascript, */*; q=0.01"></property>
+    </bean>
+    <!--麻吉宝-->
+    <bean id="majibaoHeaderBean" class="com.ecmoho.base.bean.HeaderBean">
+        <property name="userAgent" value="Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.155 Safari/537.36"></property>
+        <property name="referer" value="http://majibao.alimama.com/myunion.htm?spm=a2320.7388781.a31ci.3.q5ceVQ"></property>
+        <property name="orgin" value="http://majibao.alimama.com"></property>
+        <property name="acceptLanguage" value="zh-CN,zh;q=0.8"></property>
+        <property name="accept" value="application/json, text/javascript, */*; q=0.01"></property>
+    </bean>
+    <!--钻展-->
+    <bean id="diamondHeaderBean" class ="com.ecmoho.base.bean.HeaderBean">
+        <property name="userAgent" value="Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.94 Safari/537.36"></property>
+        <property name="referer" value="http://zuanshi.taobao.com/indexbp.html?spm=a2322.7757432.12244557.6.mbzhN6"></property>
+        <property name="acceptLanguage" value="zh-CN,zh;q=0.8"></property>
+        <property name="accept" value="text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01"></property>
+        <property name="orgin" value=""></property>
+    </bean>
+    <!--品销宝-->
+    <bean id="productHeaderBean" class ="com.ecmoho.base.bean.HeaderBean">
+        <property name="accept" value="*/*"></property>
+        <property name="acceptLanguage" value="zh-CN,zh;q=0.8"></property>
+        <property name="orgin" value=""></property>
+        <property name="referer" value="http://branding.taobao.com/?spm=0.0.0.0.eSm1P3"></property>
+        <property name="userAgent" value="Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.94 Safari/537.36"></property>
+    </bean>
+    <!--账房-->
+    <bean id="accountantHeaderBean" class ="com.ecmoho.base.bean.HeaderBean">
+        <property name="accept" value="text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"></property>
+        <property name="acceptLanguage" value="zh-CN,zh;q=0.8"></property>
+        <property name="orgin" value="https://pay.taobao.com"></property>
+        <property name="referer" value="https://pay.taobao.com/payments/expendDetailFrame.htm"></property>
+        <property name="userAgent" value="Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.94 Safari/537.36"></property>
+    </bean>
+    <task:scheduled-tasks>
+        <!--天数据爬取-每天6:00执行-爬取前十五天数据（每天数据）-->
+        <task:scheduled ref="autoDayExecute" method="subwayDayRun"  cron="0 0 6 * * ?"/>
+        <task:scheduled ref="autoDayExecute" method="taobaoCustomersDayRun"  cron="0 0 6 * * ?"/>
+        <task:scheduled ref="autoDayExecute" method="majibaoDayRun"  cron="0 0 6 * * ?"/>
+        <task:scheduled ref="autoDayExecute" method="productBaoDayRun"  cron="0 0 6 * * ?"/>
+        <task:scheduled ref="autoDayExecute" method="diamondDayRun"  cron="0 0 6 * * ?"/>
+        <!--周数据爬取-每周一8:00执行一次，爬取上周数据（整个周）-->
+        <task:scheduled ref="autoWeekExecute" method="subwayWeekRun"  cron="0 0 8 ? * MON"/>
+        <task:scheduled ref="autoWeekExecute" method="taobaoCustomersWeekRun"  cron="0 0 8 ? * MON"/>
+        <task:scheduled ref="autoWeekExecute" method="majibaoWeekRun"  cron="0 0 8 ? * MON"/>
+        <task:scheduled ref="autoWeekExecute" method="productBaoWeekRun"  cron="0 0 8 ? * MON"/>
+        <task:scheduled ref="autoWeekExecute" method="diamondWeekRun"  cron="0 0 8 ? * MON"/>
+
+        <!--月数据爬取-每月的21号9:00执行一次，爬取上个月数据（整个月）-->
+        <task:scheduled ref="autoMonthExecute" method="subwayMonthRun"  cron="0 0 9 1 * ?"/>
+        <task:scheduled ref="autoMonthExecute" method="taobaoCustomersMonthRun"  cron="0 0 9 1 * ?"/>
+        <task:scheduled ref="autoMonthExecute" method="majibaoMonthRun"  cron="0 0 9 1 * ?"/>
+        <task:scheduled ref="autoMonthExecute" method="productBaoMonthRun"  cron="0 0 9 1 * ?"/>
+        <task:scheduled ref="autoMonthExecute" method="diamondMonthRun"  cron="0 0 9 1 * ?"/>
+        <task:scheduled ref="autoMonthExecute" method="accountantMonthRun"  cron="0 0 9 16 * ?"/>
+    </task:scheduled-tasks>
+</beans>

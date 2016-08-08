@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecmoho.base.dao.SpiderAccountDao">
+    <resultMap id="baseSpiderSchqAccountResultMap" type="SpiderSchqAcount">
+        <id property="sid" column="id"></id>
+        <result property="account" column="account"></result>
+        <result property="loginUrl" column="login_url"></result>
+        <result property="loginQuery" column="login_query"></result>
+        <result property="method" column="method"></result>
+        <result property="redUrl" column="red_url"></result>
+        <result property="pageNumber" column="page_number"></result>
+        <result property="htmlParseJs" column="html_parse_js"></result>
+        <result property="pageParseJs" column="page_parse_js"></result>
+        <result property="pageParameter" column="page_parameter"></result>
+        <result property="refferCookie" column="reffer_cookie"></result>
+        <result property="period" column="period"></result>
+        <result property="password" column="password"></result>
+        <result property="loginName" column="login_name"></result>
+        <result property="dataType" column="data_type"></result>
+        <result property="loginElement" column="login_element"></result>
+        <result property="childAccount" column="child_account"></result>
+        <result property="isneedcode" column="isneedcode"></result>
+        <result property="ensurecodeid" column="ensurecodeid"></result>
+        <result property="requesttype" column="requesttype"></result>
+        <result property="promotionAccountantFlag" column="promotion_accountant_flag"></result>
+        <result property="promotionDiamondFlag" column="promotion_diamond_flag"></result>
+        <result property="promotionMajibaoFlag" column="promotion_majibao_flag"></result>
+        <result property="promotionProductFlag" column="promotion_product_flag"></result>
+        <result property="promotionSubwayFlag" column="promotion_subway_flag"></result>
+        <result property="promotionTaobaocustomersFlag" column="promotion_taobaocustomers_flag"></result>
+    </resultMap>
+    <resultMap id="baseSpiderSchqChildResultMap" type="SpiderSchqChild">
+        <id property="cid" column="id"></id>
+        <result property="account" column="account"></result>
+        <result property="geturl" column="geturl"></result>
+        <result property="typedesc" column="typedesc"></result>
+        <result property="type1" column="type1"></result>
+        <result property="type2" column="type2"></result>
+        <result property="type3" column="type3"></result>
+        <result property="type4" column="type4"></result>
+        <result property="childAccount" column="child_account"></result>
+        <result property="explorationBean" column="explorationbean"></result>
+        <result property="processorBean" column="processorbean"></result>
+        <result property="ordernum" column="ordernum"></result>
+        <result property="htmlParseJs" column="html_parse_js"></result>
+    </resultMap>
+
+    <!--public List<SpiderSchqAcount> getAllSpiderSchqAccount();-->
+    <!--public SpiderSchqAcount getSpiderSchqAccount(int id);-->
+
+    <!--public List<SpiderSchqChild> getAllSpiderSchqChild();-->
+    <!--public SpiderSchqChild getSpiderSchqChildById(int id);-->
+    <!--public SpiderSchqChild getSpiderSchqChildByChildAccount(String childAccount);-->
+
+    <select id="getAllSpiderSchqAccount" resultMap="baseSpiderSchqAccountResultMap">
+        SELECT * from spider.account_schq WHERE id>=100 ORDER BY id ASC
+    </select>
+    <select id="getSpiderSchqAccount" parameterType="int" resultMap="baseSpiderSchqAccountResultMap">
+        SELECT * from spider.account_schq WHERE id=#{sid}
+    </select>
+    <select id="getAllSpiderSchqChild" resultMap="baseSpiderSchqChildResultMap">
+        SELECT * FROM spider.account_schq_child
+    </select>
+    <select id="getSpiderSchqChildById" parameterType="int" resultMap="baseSpiderSchqChildResultMap">
+        SELECT * FROM spider.account_schq_child WHERE id=#{cid}
+    </select>
+    <select id="getSpiderSchqChildByChildAccount" parameterType="java.lang.String" resultMap="baseSpiderSchqChildResultMap">
+        SELECT * FROM spider.account_schq_child WHERE child_account=#{childAccount}
+    </select>
+
+</mapper>
