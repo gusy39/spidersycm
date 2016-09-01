@@ -58,13 +58,12 @@ public class DateUtil {
         String lastMonthStart="";
         try {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = DateUtils.addDays(df.parse(dateStr), -1);
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date);
-            cal.add(Calendar.MONTH, -1);
-            cal.set(Calendar.DAY_OF_MONTH, 1);
-            lastMonthStart= df.format(cal.getTime());
-        } catch (ParseException e) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(df.parse(dateStr));
+            calendar.add(Calendar.MONTH, -1);
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            lastMonthStart= df.format(calendar.getTime());
+        }catch (ParseException e) {
             e.printStackTrace();
         }
         return lastMonthStart;
@@ -74,7 +73,7 @@ public class DateUtil {
         String lastMonthEnd="";
         try {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = DateUtils.addDays(df.parse(dateStr), -1);
+            Date date = df.parse(dateStr);
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
             cal.set(Calendar.DAY_OF_MONTH, 1);
@@ -101,6 +100,6 @@ public class DateUtil {
                 e.printStackTrace();
             }
         }
-        return  dateList;
+        return dateList;
     }
 }
