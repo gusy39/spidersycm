@@ -46,11 +46,11 @@ public class DiamondBoothProcessor implements PageProcessor {
                     dataMap.put("charge", resultJsonObject.getString("charge"));
                     dataMap.put("ecpc", resultJsonObject.getString("ecpc"));
                     dataMap.put("inshopItemColNum", resultJsonObject.getString("inshopItemColNum"));
-                    dataMap.put("roi15", resultJsonObject.getString("roi15"));
-                    dataMap.put("alipayInShopNum15", resultJsonObject.getString("alipayInShopNum15"));
+                    dataMap.put("roi", resultJsonObject.getString("roi"));
+                    dataMap.put("alipayInShopNum", resultJsonObject.getString("alipayInShopNum"));
                     dataMap.put("dirShopColNum", resultJsonObject.getString("dirShopColNum"));
                     dataMap.put("adPv", resultJsonObject.getString("adPv"));
-                    dataMap.put("showCartNum15", resultJsonObject.getString("showCartNum15"));
+                    dataMap.put("cartNum", resultJsonObject.getString("cartNum"));
                     dataMap.put("ecpm", resultJsonObject.getString("ecpm"));
                     dataMap.put("log_at", urlMap.get("log_at"));
                     dataMap.put("create_at", urlMap.get("create_at"));
