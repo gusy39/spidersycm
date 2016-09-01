@@ -39,7 +39,7 @@ public class TestSpider {
 
         for (SpiderSchqAcount spiderSchqAcount:spiderSchqAccountList){
             if ("1".equals(spiderSchqAcount.getPromotionSubwayFlag())) {
-                subwayService.startGrap(spiderSchqAcount.getSid(), "2016-08-08","day");
+                subwayService.startGrap(spiderSchqAcount.getSid(), "2016-08-08","week");
             }
         }
     }
@@ -49,7 +49,7 @@ public class TestSpider {
         List<SpiderSchqAcount> spiderSchqAccountList = spiderAccountDao.getAllSpiderSchqAccount();
         for (SpiderSchqAcount spiderSchqAcount:spiderSchqAccountList){
             if ("1".equals(spiderSchqAcount.getPromotionMajibaoFlag())) {
-                majibaoService.startGrap(spiderSchqAcount.getSid(), "2016-08-08","day");
+                majibaoService.startGrap(spiderSchqAcount.getSid(), "2016-08-08","week");
             }
         }
     }
@@ -58,28 +58,28 @@ public class TestSpider {
     public void testDiamond(){
         List<SpiderSchqAcount> spiderSchqAccountList = spiderAccountDao.getAllSpiderSchqAccount();
         for (SpiderSchqAcount spiderSchqAcount:spiderSchqAccountList) {
-            if ("1".equalsIgnoreCase(spiderSchqAcount.getPromotionDiamondFlag())) {
-                diamondService.startGrap(spiderSchqAcount.getSid(), "2016-08-08","day");
+            if ("1".equalsIgnoreCase(spiderSchqAcount.getPromotionDiamondFlag())&&spiderSchqAcount.getSid()==102) {
+                diamondService.startGrap(spiderSchqAcount.getSid(), "2016-09-01","day");
             }
         }
     }
     //账房
-//    @Test
-//    public void testAccountantService(){
-//        List<SpiderSchqAcount> spiderSchqAccountList = spiderAccountDao.getAllSpiderSchqAccount();
-//        for (SpiderSchqAcount spiderSchqAcount:spiderSchqAccountList) {
-//            if ("1".equalsIgnoreCase(spiderSchqAcount.getPromotionAccountantFlag())) {
-//                accountantService.startGrap(spiderSchqAcount.getSid(), "2016-08-02","month");
-//            }
-//        }
-//    }
+    @Test
+    public void testAccountantService(){
+        List<SpiderSchqAcount> spiderSchqAccountList = spiderAccountDao.getAllSpiderSchqAccount();
+        for (SpiderSchqAcount spiderSchqAcount:spiderSchqAccountList) {
+            if ("1".equalsIgnoreCase(spiderSchqAcount.getPromotionAccountantFlag())&&spiderSchqAcount.getSid()>=129) {
+                accountantService.startGrap(spiderSchqAcount.getSid(), "2016-08-24","month");
+            }
+        }
+    }
     //品销宝
     @Test
     public void testProductBaoService(){
         List<SpiderSchqAcount> spiderSchqAccountList = spiderAccountDao.getAllSpiderSchqAccount();
         for (SpiderSchqAcount spiderSchqAcount:spiderSchqAccountList) {
             if ("1".equalsIgnoreCase(spiderSchqAcount.getPromotionProductFlag())) {
-                productBaoService.startGrap(spiderSchqAcount.getSid(), "2016-08-08","day");
+                productBaoService.startGrap(spiderSchqAcount.getSid(), "2016-08-08","week");
             }
         }
     }
@@ -88,8 +88,8 @@ public class TestSpider {
     public void testTaobaoCustomersService(){
         List<SpiderSchqAcount> spiderSchqAccountList = spiderAccountDao.getAllSpiderSchqAccount();
         for (SpiderSchqAcount spiderSchqAcount:spiderSchqAccountList) {
-            if ("1".equalsIgnoreCase(spiderSchqAcount.getPromotionTaobaocustomersFlag())) {
-                taobaoCustomersService.startGrap(spiderSchqAcount.getSid(), "2016-08-08","day");
+            if ("1".equalsIgnoreCase(spiderSchqAcount.getPromotionTaobaocustomersFlag())&&spiderSchqAcount.getSid()==120) {
+                taobaoCustomersService.startGrap(spiderSchqAcount.getSid(), "2016-08-26","week");
             }
         }
     }

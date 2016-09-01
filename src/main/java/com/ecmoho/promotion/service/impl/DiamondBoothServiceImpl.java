@@ -61,20 +61,19 @@ public class DiamondBoothServiceImpl implements PromotionService {
             log.info("Token获取失败或已失效。。。。");
             return;
         }
-        String csrfID="";
+        String token="";
         try {
-            String userInfo = userInfoStr.substring(8, userInfoStr.length() - 1);
-            JSONObject userInfoJsonObject = JSONObject.parseObject(userInfo);
-            csrfID = userInfoJsonObject.getJSONObject("data").getString("csrfID");
-        } catch (Exception e) {
-            log.info("json解析异常。。。");
+            JSONObject userInfoJsonObject = JSONObject.parseObject(userInfoStr);
+            token = userInfoJsonObject.getJSONObject("data").getString("token");
+            if (token==null||"".equals(token)){
+                log.info("Token获取失败或已失效。。。。");
+                return;
+            }
+        }catch (Exception e){
+            log.info("json转换异常。。");
         }
 
-        if (csrfID==null||"".equals(csrfID)){
-            log.info("cookie获取失败或已失效。。。。");
-            return;
-        }
-        targetUrl=targetUrl.replaceAll("##csID##", csrfID);
+        targetUrl=targetUrl.replaceAll("##Token##", token);
         HashMap<String, String> urlMap = new HashMap<>();
         urlMap.put("accountid", accountid + "");
         urlMap.put("grapfrequency", grapfrequency);

@@ -49,9 +49,9 @@ public abstract class SeleniumSpider {
 	                Thread.sleep(500L);
 	                if (!webDriver.getCurrentUrl().startsWith(login_url)) {
 	                	  webDriver.get(red_url);
-	           			   Thread.sleep(2000L);
-	           	           webDriver.get(red_url);
-	           			   Thread.sleep(2000L);
+	           			   Thread.sleep(4000L);
+	           	           //webDriver.get(red_url);
+	           			   //Thread.sleep(2000L);
 	           		       //获取cookie
 	           	           Set<Cookie> cookies = webDriver.manage().getCookies();
 						   for (Cookie cookie : cookies) {

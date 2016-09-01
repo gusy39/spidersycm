@@ -69,7 +69,7 @@ public class SubWaySeleniumSpider extends SeleniumSpider{
                         // action.dragAndDrop(target,260);
                         action.click(webDriver.findElement(By.id("nc_1__bg")));
                         action.dragAndDropBy(moveElement, 260, 0).build().perform();
-                        Thread.sleep(8000L);
+                        Thread.sleep(15000L);
                     }
                     WebElement ensureElement = webDriver.findElement(By.id("nc_1__btn_2"));
                     if (!doesWebElementExist(ensureElement)) {

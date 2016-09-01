@@ -64,7 +64,7 @@
     </bean>
     <task:scheduled-tasks>
         <!--天数据爬取-每天6:00执行-爬取前十五天数据（每天数据）-->
-        <task:scheduled ref="autoDayExecute" method="subwayDayRun"  cron="0 0 6 * * ?"/>
+        <task:scheduled ref="autoDayExecute" method="subwayDayRun"  cron="0 0 10 * * ?"/>
         <task:scheduled ref="autoDayExecute" method="taobaoCustomersDayRun"  cron="0 0 6 * * ?"/>
         <task:scheduled ref="autoDayExecute" method="majibaoDayRun"  cron="0 0 6 * * ?"/>
         <task:scheduled ref="autoDayExecute" method="productBaoDayRun"  cron="0 0 6 * * ?"/>

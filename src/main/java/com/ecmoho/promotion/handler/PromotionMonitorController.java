@@ -1,6 +1,9 @@
 package com.ecmoho.promotion.handler;
 
+import com.ecmoho.base.dao.SpiderAccountDao;
+import com.ecmoho.base.model.SpiderSchqAcount;
 import com.ecmoho.promotion.service.PromotionService;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +14,11 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by meidejing on 2016/6/29.
  * 推广费用数据抓取控制器
@@ -18,64 +26,44 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping(value = "/promotion")
 public class PromotionMonitorController {
-    @Resource(name = "subwayServiceImpl")
-    private PromotionService subwayService;
-    @Resource(name = "taobaoCustomersServiceImpl")
-    private PromotionService taobaoCustomersService;
-    @Resource(name = "majibaoServiceImpl")
-    private PromotionService majibaoService;
-    @Resource(name = "productBaoServiceImpl")
-    private PromotionService productBaoService;
-    @Resource(name = "diamondBoothServiceImpl")
-    private PromotionService diamondService;
-    @Resource(name = "accountantServiceImpl")
-    private PromotionService accountantService;
-    //抓取直通车数据
-    @RequestMapping(value = "subwayGrap/{accountid}/{dateStr}/{grabFrequency}",method = RequestMethod.GET)
+
+    @Resource
+    private SpiderAccountDao spiderAccountDao;
+    //执行抓取操作
+    @RequestMapping(value = "{promotionType}/{accountid}/{dateStr}/{grabFrequency}",method = RequestMethod.GET)
     @ResponseBody
-    public String subWayGrap(HttpServletRequest request, @PathVariable("accountid") int accountid,
+    public String subWayGrap(HttpServletRequest request,@PathVariable("promotionType") String promotionType,@PathVariable("accountid") String accountid,
                              @PathVariable("dateStr") String dateStr,@PathVariable("grabFrequency") String grabFrequency){
-        subwayService.startGrap(accountid,dateStr,grabFrequency);
+        System.out.println(accountid);
+        ApplicationContext ac= WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
+        PromotionService service= (PromotionService) ac.getBean(promotionType);
+        String accountArr[]=accountid.split("\\|");
+        for (String account:accountArr){
+            service.startGrap(Integer.valueOf(account),dateStr,grabFrequency);
+        }
         return "success";
     }
-    //抓取淘宝客数据
-    @RequestMapping(value = "taobaoCustomersGrap/{accountid}/{dateStr}/{grabFrequency}",method = RequestMethod.GET)
+    @RequestMapping(value = "/getshopList",method = RequestMethod.GET)
     @ResponseBody
-    public String taobaoCustomersGrap(HttpServletRequest request, @PathVariable("accountid") int accountid,
-                                      @PathVariable("dateStr") String dateStr,@PathVariable("grabFrequency") String grabFrequency){
-        taobaoCustomersService.startGrap(accountid,dateStr,grabFrequency);
-        return "success";
+    public List<Map<String,String>> subWayGrap(){
+        List<SpiderSchqAcount> spiderSchqAccountList = spiderAccountDao.getAllSpiderSchqAccount();
+        List<Map<String,String>> getList=new ArrayList<Map<String,String>>();
+        Map<String,String> dataMap=null;
+        if (spiderSchqAccountList!=null&&spiderSchqAccountList.size()>0){
+            for (SpiderSchqAcount spiderSchqAcount:spiderSchqAccountList){
+                dataMap=new HashMap<String,String>();
+                dataMap.put("loginName",spiderSchqAcount.getLoginName());
+                dataMap.put("id",spiderSchqAcount.getSid()+"");
+                dataMap.put("subwayflag",spiderSchqAcount.getPromotionSubwayFlag());
+                dataMap.put("taobaocustomersflag",spiderSchqAcount.getPromotionTaobaocustomersFlag());
+                dataMap.put("majibaoflag",spiderSchqAcount.getPromotionMajibaoFlag());
+                dataMap.put("diamondflag",spiderSchqAcount.getPromotionDiamondFlag());
+                dataMap.put("productflag",spiderSchqAcount.getPromotionProductFlag());
+                dataMap.put("accountantflag",spiderSchqAcount.getPromotionAccountantFlag());
+                getList.add(dataMap);
+            }
+        }
+        return getList;
     }
-    //抓取麻吉宝数据
-    @RequestMapping(value = "majibaoGrap/{accountid}/{dateStr}/{grabFrequency}",method = RequestMethod.GET)
-    @ResponseBody
-    public String majibaoGrap(HttpServletRequest request, @PathVariable("accountid") int accountid,
-                              @PathVariable("dateStr") String dateStr,@PathVariable("grabFrequency") String grabFrequency){
-        majibaoService.startGrap(accountid,dateStr,grabFrequency);
-        return "success";
-    }
-    //抓取钻展数据
-    @RequestMapping(value = "diamondBoothGrap/{accountid}/{dateStr}/{grabFrequency}",method = RequestMethod.GET)
-    @ResponseBody
-    public String diamondBoothGrap(HttpServletRequest request, @PathVariable("accountid") int accountid,
-                                 @PathVariable("dateStr") String dateStr,@PathVariable("grabFrequency") String grabFrequency){
-        diamondService.startGrap(accountid,dateStr,grabFrequency);
-        return "success";
-    }
-    //抓取品销宝数据
-    @RequestMapping(value = "productBaoGrap/{accountid}/{dateStr}/{grabFrequency}",method = RequestMethod.GET)
-    @ResponseBody
-    public String productBaoGrap(HttpServletRequest request, @PathVariable("accountid") int accountid,
-                                 @PathVariable("dateStr") String dateStr,@PathVariable("grabFrequency") String grabFrequency){
-        productBaoService.startGrap(accountid,dateStr,grabFrequency);
-        return "success";
-    }
-    //抓取账房数据
-    @RequestMapping(value = "accountantGrap/{accountid}/{dateStr}/{grabFrequency}",method = RequestMethod.GET)
-    @ResponseBody
-    public String accountantGrap(HttpServletRequest request, @PathVariable("accountid") int accountid,
-                              @PathVariable("dateStr") String dateStr,@PathVariable("grabFrequency") String grabFrequency){
-        accountantService.startGrap(accountid,dateStr,grabFrequency);
-        return "success";
-    }
+
 }
